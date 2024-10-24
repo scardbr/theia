@@ -1,4 +1,3 @@
-<script>
 document.addEventListener('DOMContentLoaded', function() {
   const toggleButtons = document.querySelectorAll('.table-contents-item');
   const allContents = document.querySelectorAll('.table-contents-list');
@@ -58,4 +57,3 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('resize', setupBehavior); // Detectar cambios de tamaño de pantalla
   setupBehavior(); // Inicializar comportamiento al cargar la página
 });
-</script>
