@@ -171,17 +171,20 @@ document.addEventListener('DOMContentLoaded', function() {
       if (isScrollingByClick) return;  // Si el scroll fue disparado por clic, no hacer nada
 
       let currentIndex = -1;
+      let smallestDistance = Infinity;
 
       headings.forEach((heading, index) => {
         const rect = heading.getBoundingClientRect();
-        const headingTop = rect.top - extraSpace;
+        const distance = Math.abs(rect.top - extraSpace);
 
-        if (headingTop <= 0 && rect.bottom > extraSpace) {
+        // Solo activaremos el elemento más cercano
+        if (distance < smallestDistance && rect.top < window.innerHeight && rect.bottom > 0) {
+          smallestDistance = distance;
           currentIndex = index;
         }
       });
 
-      // Evita activar dos ítems al mismo tiempo
+      // Si encontramos un elemento más cercano y es diferente del actual, lo activamos
       if (currentIndex !== -1 && !toggleButtons[currentIndex].classList.contains('is-active')) {
         setActiveItem(currentIndex);  // Activar el ítem correspondiente
       }
