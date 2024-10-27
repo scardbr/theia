@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Comportamiento en Mobile: Sin handler, solo scroll y activación de clase
   function setupMobileBehavior() {
-    // Asegurarse de que el primer ítem en móvil tenga la clase 'is-active'
+    // Asegurarse de que el primer ítem en móvil tenga la clase 'is-active' al cargar
     if (toggleButtons.length > 0) {
       toggleButtons[0].classList.add('is-active');
     }
@@ -181,7 +181,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
 
-      if (currentIndex !== -1) {
+      // Evita activar dos ítems al mismo tiempo
+      if (currentIndex !== -1 && !toggleButtons[currentIndex].classList.contains('is-active')) {
         setActiveItem(currentIndex);  // Activar el ítem correspondiente
       }
     });
