@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let lastOpenedIndex = 0; // Seguimiento del último ítem abierto
   let scrollActive = true; // Controlar si el scroll está activo o no
   let isScrollingByClick = false; // Flag para controlar si el scroll fue disparado por un clic
+  let lastScrollTop = 0; // Posición previa para determinar dirección del scroll
 
   const itemHeightPx = 56;  // 3.5rem = 56px
   const extraSpace = 192;  // Offset superior de 192px tanto para desktop como mobile
@@ -171,22 +172,29 @@ document.addEventListener('DOMContentLoaded', function() {
       if (isScrollingByClick) return;  // Si el scroll fue disparado por clic, no hacer nada
 
       let currentIndex = -1;
-      let smallestDistance = Infinity;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollingDown = scrollTop > lastScrollTop;
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Evitar números negativos en el scroll
 
       headings.forEach((heading, index) => {
         const rect = heading.getBoundingClientRect();
-        const distance = Math.abs(rect.top - extraSpace);
-
-        // Solo activaremos el elemento más cercano
-        if (distance < smallestDistance && rect.top < window.innerHeight && rect.bottom > 0) {
-          smallestDistance = distance;
-          currentIndex = index;
+        
+        if (scrollingDown) {
+          // Cuando vamos hacia abajo, activamos el ítem si la parte superior del heading está dentro del viewport
+          if (rect.top - extraSpace <= 0 && rect.bottom > 0) {
+            currentIndex = index;
+          }
+        } else {
+          // Cuando vamos hacia arriba, activamos solo si el heading está completamente visible
+          if (rect.top >= 0 && rect.top < window.innerHeight) {
+            currentIndex = index;
+          }
         }
       });
 
-      // Si encontramos un elemento más cercano y es diferente del actual, lo activamos
+      // Activamos el ítem actual si es diferente del activo
       if (currentIndex !== -1 && !toggleButtons[currentIndex].classList.contains('is-active')) {
-        setActiveItem(currentIndex);  // Activar el ítem correspondiente
+        setActiveItem(currentIndex);
       }
     });
   }
