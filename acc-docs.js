@@ -143,6 +143,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Comportamiento en Mobile: Sin handler, solo scroll y activación de clase
   function setupMobileBehavior() {
+    // Asegurarse de que el primer ítem en móvil tenga la clase 'is-active'
+    if (toggleButtons.length > 0) {
+      toggleButtons[0].classList.add('is-active');
+    }
+
     toggleButtons.forEach(function(button, index) {
       button.addEventListener('click', function() {
         disableScrollHandling();
