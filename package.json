@@ -1,0 +1,8 @@
+{
+  "name": "webflow-backend",
+  "version": "1.0.0",
+  "main": "api/pages.js",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}
