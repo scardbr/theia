@@ -4,8 +4,17 @@ module.exports = async (req, res) => {
   const API_URL = "https://api.webflow.com/v2/sites/67007189f88db2ea542024b5/pages";
   const API_TOKEN = process.env.WEBFLOW_API_TOKEN;
 
-  // Configuración de CORS
-  res.setHeader("Access-Control-Allow-Origin", "https://theia-55b283.webflow.io");
+  const allowedOrigins = [
+  "https://theia-55b283.webflow.io",
+  "https://www.theiamarkerless.ca",
+  "https://www.theiamarkerless.com"
+];
+
+const origin = req.headers.origin;
+if (allowedOrigins.includes(origin)) {
+  res.setHeader("Access-Control-Allow-Origin", origin);
+}
+
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
